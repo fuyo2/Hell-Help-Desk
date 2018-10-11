@@ -4,6 +4,8 @@ from tkinter import messagebox
 
 from PIL import Image, ImageTk
 
+import datetime
+
 #from numpy import arange
 
 root = Tk()
@@ -15,22 +17,25 @@ root.geometry("640x480")
 root.iconbitmap('window_icon.ico')
 #root.configure(background='')
 
+today = datetime.date.today()
+
 def retrieveInput():
     inputName = nameEntry.get()
     print (inputName)
 
-def saveMenu():
+def saveInput():
     #Collects user input from text boxes and makes it a veriable
     inputName = nameEntry.get()
     inputDept = deptEntry.get()
     inputDescpt = descptEntry.get()
     
     #Opens and writes values of text boxes to a CSV file.
-    with open("output_data.csv", "w") as outFile:
+    with open("output_data.csv", "a") as outFile:
         outString = "Name: "
         outString += str(inputName)
         outString += " , Department: " + str(inputDept)
         outString += " , Description: " + str(inputDescpt)
+        outString += " , Date: " + str(today)
         outString += "\n"
         outFile.write(outString)
 
@@ -74,7 +79,7 @@ menu = Menu(app.master)
 app.master.config(menu=menu)
     
 file = Menu(menu)
-file.add_command(label='Save', command=saveMenu)
+file.add_command(label='Save', command=saveInput)
 file.add_command(label='Exit', command=root.destroy)
 menu.add_cascade(label='File', menu=file)
 
@@ -116,20 +121,7 @@ descptEntry = Entry(app, font=12, width=20)
 descptEntry.grid(row=7, column=1, padx=5, pady=5)
 
 def dialog():
-    #Collects user input from text boxes and makes it a veriable
-    inputName = nameEntry.get()
-    inputDept = deptEntry.get()
-    inputDescpt = descptEntry.get()
-    
-    #Opens and writes values of text boxes to a CSV file.
-    with open("output_data.csv", "w") as outFile:
-        outString = "Name: "
-        outString += str(inputName)
-        outString += " , Department: " + str(inputDept)
-        outString += " , Description: " + str(inputDescpt)
-        outString += "\n"
-        outFile.write(outString)
-        
+    saveInput()
     var = messagebox.showinfo("Case Submitted" , "Your ticket has been successfully submitted, It will never be reviewed.")
 
 # This is the subit button.
@@ -138,8 +130,6 @@ submitButton.grid(row=8, column=1, padx=5, pady=5)
 
 def dialog2():
     var = messagebox.showinfo("Case Submitted" , "You will never be able to modify your case.")
-#    im = Image.open("logo_portal.png")
-#    im.show()
 
 # This is the Modify Existing Case button
 ExCaseButton = Button(app, font=12, height = 1, width = 20)
