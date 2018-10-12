@@ -142,5 +142,3 @@ quitButton.grid(row=10, column=1, padx=5, pady=5)
 
 # Keeps the program running in a loop until it is terminated by the user.
 root.mainloop()
-
-
