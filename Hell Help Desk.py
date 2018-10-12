@@ -60,7 +60,7 @@ def aboutWindow():
     dateLabel = Label(app, text="Justin Cole 2018",font=12)
     dateLabel.grid(row=3, column=1, padx=5, pady=5)
     
-    versionLabel = Label(app, text="version 0.2",font=12)
+    versionLabel = Label(app, text="version 0.02",font=12)
     versionLabel.grid(row=4, column=1, padx=5, pady=5)
     
     # Quits out of the About window
