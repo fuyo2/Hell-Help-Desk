@@ -6,7 +6,9 @@ from PIL import Image, ImageTk
 
 import datetime
 
-#from numpy import arange
+import csv
+
+import tkinter
 
 root = Tk()
 # Window title
@@ -14,7 +16,7 @@ root.title ("Hell Help Desk")
 # Window size.
 root.geometry("640x480")
 # Window icon.
-root.iconbitmap('window_icon.ico')
+root.iconbitmap('favicon.ico')
 #root.configure(background='')
 
 today = datetime.date.today()
@@ -31,11 +33,10 @@ def saveInput():
     
     #Opens and writes values of text boxes to a CSV file.
     with open("output_data.csv", "a") as outFile:
-        outString = "Name: "
-        outString += str(inputName)
-        outString += " , Department: " + str(inputDept)
-        outString += " , Description: " + str(inputDescpt)
-        outString += " , Date: " + str(today)
+        outString = str(inputName)
+        outString += " , " + str(inputDept)
+        outString += " , " + str(inputDescpt)
+        outString += " , " + str(today)
         outString += "\n"
         outFile.write(outString)
 
@@ -47,7 +48,7 @@ def aboutWindow():
     # Window size.
     root.geometry("320x210")
     # Window icon.
-    root.iconbitmap('window_icon.ico')
+    root.iconbitmap('favicon.ico')
     
     app = Frame(root)
     app.grid()
@@ -60,7 +61,7 @@ def aboutWindow():
     dateLabel = Label(app, text="Justin Cole 2018",font=12)
     dateLabel.grid(row=3, column=1, padx=5, pady=5)
     
-    versionLabel = Label(app, text="version 0.02",font=12)
+    versionLabel = Label(app, text="version 0.03",font=12)
     versionLabel.grid(row=4, column=1, padx=5, pady=5)
     
     # Quits out of the About window
@@ -69,6 +70,41 @@ def aboutWindow():
     
     # Keeps the window in a loop to not close until okButton in pressed.
     root.mainloop()
+
+# Modify Existing Case window
+def modifyWindow():
+    root = Tk()
+    # Window title
+    root.title ("Modify Existing Case - Hell Help Desk")
+    # Window size.
+    root.geometry("472x640")
+    # Window icon.
+    root.iconbitmap('favicon.ico')
+    
+    app = Frame(root)
+    app.grid()
+    app.place(relx=.5, rely=.5, anchor="center")
+    
+#    topLabel = Label(app, text="Open Cases",font=12)
+#    topLabel.grid(row=1, column=1, padx=5, pady=5)
+    
+    with open("output_data.csv", newline = "") as file:
+        reader = csv.reader(file)
+
+        # r and c tell us where to grid the labels
+        r = 0
+        for col in reader:
+            c = 0
+            for row in col:
+            # i've added some styling
+                labelCSV = tkinter.Label(root, width = 16, height = 2, text = row, relief = tkinter.RIDGE)
+                labelCSV.grid(row = r, column = c)
+                c += 1
+            r += 1
+    
+    # Quits out of the About window
+    okButton = Button(app, font=12, text="Close", fg="black", command=root.destroy, height = 1, width = 20,)
+    okButton.grid(row=10, column=1, padx=5, pady=5)
     
 app = Frame(root)
 app.grid()
@@ -134,7 +170,7 @@ def dialog2():
 # This is the Modify Existing Case button
 ExCaseButton = Button(app, font=12, height = 1, width = 20)
 ExCaseButton.grid(row=9, column=1, padx=5, pady=5)
-ExCaseButton.configure(text = "Modify Existing Case", command=dialog2)
+ExCaseButton.configure(text = "Modify Existing Case", command=modifyWindow)
 
 # This is the QUIT button.
 quitButton = Button(app, font=12, text="QUIT", fg="red", command=root.destroy, height = 1, width = 20,)
